@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title>Todo</title>
+    <title>SList</title>
     <link rel="stylesheet" href="css/style.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="js/scripts.js" defer></script>
 </head>
 <body>
-    <div class="todo-container">
+    <div class="SList-container">
       <header>
-        <h1>Todo Avançado</h1>
+        <h1>SList</h1>
       </header>
-      <form id="todo-form">
+      <form id="SList-form">
         <p>Adicione sua tarefa</p>
         <div class="form-control">
           <input
             type="text"
-            id="todo-input"
+            id="SList-input"
             placeholder="O que você vai fazer?"
           />
           <button type="submit">
@@ -51,24 +51,24 @@
           <h4>Filtrar:</h4>
           <select id="filter-select">
             <option value="all">Todos</option>
-            <option value="done">Feitos</option>
-            <option value="todo">A fazer</option>
+            <option value="done">Concluídas</option>
+            <option value="SList">Pendentes</option>
           </select>
         </div>
       </div>
-      <div id="todo-list">
-        <!-- 
-          Template
-          -->
-          <div class="todo">
-          <h3>Estou fazendo algo aqui...</h3>
-          <button class="finish-todo">
+      <div id="SList-list">
+        
+        <!-- Template-->
+
+          <div class="SList">
+          <h3>Minha tarefa</h3>
+          <button class="finish-SList">
             <i class="fa-solid fa-check"></i>
           </button>
-          <button class="edit-todo">
+          <button class="edit-SList">
             <i class="fa-solid fa-pen"></i>
           </button>
-          <button class="remove-todo">
+          <button class="remove-SList">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div> 
