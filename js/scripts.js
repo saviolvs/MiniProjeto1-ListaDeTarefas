@@ -1,7 +1,7 @@
 // Seleção de elementos
-const todoForm = document.querySelector("#todo-form");
-const todoInput = document.querySelector("#todo-input");
-const todoList = document.querySelector("#todo-list");
+const SListForm = document.querySelector("#SList-form");
+const SListInput = document.querySelector("#SList-input");
+const SList = document.querySelector("#SList-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
@@ -12,105 +12,100 @@ const filterBtn = document.querySelector("#filter-select");
 let oldInputValue;
 
 // Funções
-const saveTodo = (text, done = 0, save = 1) => {
-  const todo = document.createElement("div");
-  todo.classList.add("todo");
+const saveSList = (text, done = 0, save = 1) => {
+  const SListItem = document.createElement("div");
+  SListItem.classList.add("SList");
 
-  const todoTitle = document.createElement("h3");
-  todoTitle.innerText = text;
-  todo.appendChild(todoTitle);
+  const SListTitle = document.createElement("h3");
+  SListTitle.innerText = text;
+  SListItem.appendChild(SListTitle);
 
   const doneBtn = document.createElement("button");
-  doneBtn.classList.add("finish-todo");
+  doneBtn.classList.add("finish-SList");
   doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-  todo.appendChild(doneBtn);
+  SListItem.appendChild(doneBtn);
 
   const editBtn = document.createElement("button");
-  editBtn.classList.add("edit-todo");
+  editBtn.classList.add("edit-SList");
   editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-  todo.appendChild(editBtn);
+  SListItem.appendChild(editBtn);
 
   const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("remove-todo");
+  deleteBtn.classList.add("remove-SList");
   deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  todo.appendChild(deleteBtn);
+  SListItem.appendChild(deleteBtn);
 
   // Utilizando dados da localStorage
   if (done) {
-    todo.classList.add("done");
+    SListItem.classList.add("done");
   }
 
   if (save) {
-    saveTodoLocalStorage({ text, done: 0 });
+    saveSListLocalStorage({ text, done: 0 });
   }
 
-  todoList.appendChild(todo);
+  SList.appendChild(SListItem);
 
-  todoInput.value = "";
+  SListInput.value = "";
 };
 
 const toggleForms = () => {
   editForm.classList.toggle("hide");
-  todoForm.classList.toggle("hide");
-  todoList.classList.toggle("hide");
+  SListForm.classList.toggle("hide");
+  SList.classList.toggle("hide");
 };
 
-const updateTodo = (text) => {
-  const todos = document.querySelectorAll(".todo");
+const updateSList = (text) => {
+  const SLists = document.querySelectorAll(".SList");
 
-  todos.forEach((todo) => {
-    let todoTitle = todo.querySelector("h3");
+  SLists.forEach((SListItem) => {
+    let SListTitle = SListItem.querySelector("h3");
 
-    if (todoTitle.innerText === oldInputValue) {
-      todoTitle.innerText = text;
+    if (SListTitle.innerText === oldInputValue) {
+      SListTitle.innerText = text;
 
       // Utilizando dados da localStorage
-      updateTodoLocalStorage(oldInputValue, text);
+      updateSListLocalStorage(oldInputValue, text);
     }
   });
 };
 
-const getSearchedTodos = (search) => {
-  const todos = document.querySelectorAll(".todo");
+const getSearchedSLists = (search) => {
+  const SLists = document.querySelectorAll(".SList");
 
-  todos.forEach((todo) => {
-    const todoTitle = todo.querySelector("h3").innerText.toLowerCase();
+  SLists.forEach((SListItem) => {
+    const SListTitle = SListItem.querySelector("h3").innerText.toLowerCase();
 
-    todo.style.display = "flex";
+    SListItem.style.display = "flex";
 
-    console.log(todoTitle);
-
-    if (!todoTitle.includes(search)) {
-      todo.style.display = "none";
+    if (!SListTitle.includes(search)) {
+      SListItem.style.display = "none";
     }
   });
 };
 
-const filterTodos = (filterValue) => {
-  const todos = document.querySelectorAll(".todo");
+const filterSLists = (filterValue) => {
+  const SLists = document.querySelectorAll(".SList");
 
   switch (filterValue) {
     case "all":
-      todos.forEach((todo) => (todo.style.display = "flex"));
-
+      SLists.forEach((SListItem) => (SListItem.style.display = "flex"));
       break;
 
     case "done":
-      todos.forEach((todo) =>
-        todo.classList.contains("done")
-          ? (todo.style.display = "flex")
-          : (todo.style.display = "none")
+      SLists.forEach((SListItem) =>
+        SListItem.classList.contains("done")
+          ? (SListItem.style.display = "flex")
+          : (SListItem.style.display = "none")
       );
-
       break;
 
-    case "todo":
-      todos.forEach((todo) =>
-        !todo.classList.contains("done")
-          ? (todo.style.display = "flex")
-          : (todo.style.display = "none")
+    case "SList":
+      SLists.forEach((SListItem) =>
+        !SListItem.classList.contains("done")
+          ? (SListItem.style.display = "flex")
+          : (SListItem.style.display = "none")
       );
-
       break;
 
     default:
@@ -119,43 +114,43 @@ const filterTodos = (filterValue) => {
 };
 
 // Eventos
-todoForm.addEventListener("submit", (e) => {
+SListForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const inputValue = todoInput.value;
+  const inputValue = SListInput.value;
 
   if (inputValue) {
-    saveTodo(inputValue);
+    saveSList(inputValue);
   }
 });
 
 document.addEventListener("click", (e) => {
   const targetEl = e.target;
   const parentEl = targetEl.closest("div");
-  let todoTitle;
+  let SListTitle;
 
   if (parentEl && parentEl.querySelector("h3")) {
-    todoTitle = parentEl.querySelector("h3").innerText || "";
+    SListTitle = parentEl.querySelector("h3").innerText || "";
   }
 
-  if (targetEl.classList.contains("finish-todo")) {
+  if (targetEl.classList.contains("finish-SList")) {
     parentEl.classList.toggle("done");
 
-    updateTodoStatusLocalStorage(todoTitle);
+    updateSListStatusLocalStorage(SListTitle);
   }
 
-  if (targetEl.classList.contains("remove-todo")) {
+  if (targetEl.classList.contains("remove-SList")) {
     parentEl.remove();
 
     // Utilizando dados da localStorage
-    removeTodoLocalStorage(todoTitle);
+    removeSListLocalStorage(SListTitle);
   }
 
-  if (targetEl.classList.contains("edit-todo")) {
+  if (targetEl.classList.contains("edit-SList")) {
     toggleForms();
 
-    editInput.value = todoTitle;
-    oldInputValue = todoTitle;
+    editInput.value = SListTitle;
+    oldInputValue = SListTitle;
   }
 });
 
@@ -170,7 +165,7 @@ editForm.addEventListener("submit", (e) => {
   const editInputValue = editInput.value;
 
   if (editInputValue) {
-    updateTodo(editInputValue);
+    updateSList(editInputValue);
   }
 
   toggleForms();
@@ -179,7 +174,7 @@ editForm.addEventListener("submit", (e) => {
 searchInput.addEventListener("keyup", (e) => {
   const search = e.target.value;
 
-  getSearchedTodos(search);
+  getSearchedSLists(search);
 });
 
 eraseBtn.addEventListener("click", (e) => {
@@ -193,58 +188,58 @@ eraseBtn.addEventListener("click", (e) => {
 filterBtn.addEventListener("change", (e) => {
   const filterValue = e.target.value;
 
-  filterTodos(filterValue);
+  filterSLists(filterValue);
 });
 
 // Local Storage
-const getTodosLocalStorage = () => {
-  const todos = JSON.parse(localStorage.getItem("todos")) || [];
+const getSListsLocalStorage = () => {
+  const SLists = JSON.parse(localStorage.getItem("SLists")) || [];
 
-  return todos;
+  return SLists;
 };
 
-const loadTodos = () => {
-  const todos = getTodosLocalStorage();
+const loadSLists = () => {
+  const SLists = getSListsLocalStorage();
 
-  todos.forEach((todo) => {
-    saveTodo(todo.text, todo.done, 0);
+  SLists.forEach((SListItem) => {
+    saveSList(SListItem.text, SListItem.done, 0);
   });
 };
 
-const saveTodoLocalStorage = (todo) => {
-  const todos = getTodosLocalStorage();
+const saveSListLocalStorage = (SListItem) => {
+  const SLists = getSListsLocalStorage();
 
-  todos.push(todo);
+  SLists.push(SListItem);
 
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem("SLists", JSON.stringify(SLists));
 };
 
-const removeTodoLocalStorage = (todoText) => {
-  const todos = getTodosLocalStorage();
+const removeSListLocalStorage = (SListText) => {
+  const SLists = getSListsLocalStorage();
 
-  const filteredTodos = todos.filter((todo) => todo.text != todoText);
+  const filteredSLists = SLists.filter((SListItem) => SListItem.text != SListText);
 
-  localStorage.setItem("todos", JSON.stringify(filteredTodos));
+  localStorage.setItem("SLists", JSON.stringify(filteredSLists));
 };
 
-const updateTodoStatusLocalStorage = (todoText) => {
-  const todos = getTodosLocalStorage();
+const updateSListStatusLocalStorage = (SListText) => {
+  const SLists = getSListsLocalStorage();
 
-  todos.map((todo) =>
-    todo.text === todoText ? (todo.done = !todo.done) : null
+  SLists.map((SListItem) =>
+    SListItem.text === SListText ? (SListItem.done = !SListItem.done) : null
   );
 
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem("SLists", JSON.stringify(SLists));
 };
 
-const updateTodoLocalStorage = (todoOldText, todoNewText) => {
-  const todos = getTodosLocalStorage();
+const updateSListLocalStorage = (SListOldText, SListNewText) => {
+  const SLists = getSListsLocalStorage();
 
-  todos.map((todo) =>
-    todo.text === todoOldText ? (todo.text = todoNewText) : null
+  SLists.map((SListItem) =>
+    SListItem.text === SListOldText ? (SListItem.text = SListNewText) : null
   );
 
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem("SLists", JSON.stringify(SLists));
 };
 
-loadTodos();
+loadSLists();
